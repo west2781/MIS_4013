@@ -6,11 +6,23 @@ for (int i = 0; i < int.MaxValue; i++)
 {
     Console.WriteLine("Please input lower bound value <<");
     string lowerBound = Console.ReadLine();
-    int lower = Convert.ToInt32(lowerBound);
+    int lower = 0;
+
+    // Below is the code that was moved to a method called ValidateInput
+    //while(int.TryParse(lowerBound, out lower) == false)
+    //{
+    //    Console.WriteLine("Invalid input for lower bound.");
+    //    lowerBound = Console.ReadLine();
+    //}
+
+    lower = ValidateInput(ref lowerBound);
 
     Console.WriteLine("Please input upper bound value <<");
     string upperBound = Console.ReadLine();
-    int upper = Convert.ToInt32(upperBound);
+    int upper = 0;
+    upper = ValidateInput(ref upperBound);
+
+
 
     var rando = r.Next(lower, upper + 1); // Generate a random number in the range given by the user. (Second number not included so add one.)
 
@@ -18,7 +30,7 @@ for (int i = 0; i < int.MaxValue; i++)
 
     int guess;
     int count = 0;
-   
+
     do
     {
         Console.WriteLine($"Please guess a number between {lower} and {upper} <<");
@@ -52,9 +64,21 @@ for (int i = 0; i < int.MaxValue; i++)
     Console.WriteLine("Do you want to try your luck again? yes or no <<");
     answer = Console.ReadLine().ToLower();
 
-    if (answer == "no")
+    if (answer != "yes")
     {
         i = int.MaxValue;
         break;
     }
+}
+
+static int ValidateInput(ref string lowerBound)
+{
+    int lower;
+    while (int.TryParse(lowerBound, out lower) == false)
+    {
+        Console.WriteLine("Invalid input for lower bound.");
+        lowerBound = Console.ReadLine();
+    }
+
+    return lower;
 }
